@@ -1,2 +1,7 @@
 .backup-manifests/
 backups/
+
+# local backups / temp
+backups/
+.backup-manifests/
+*.bak
