@@ -29,11 +29,13 @@ const server = http.createServer((req, res) => {
     return send(res, 405, 'Method Not Allowed', 'text/plain; charset=utf-8');
   }
 
-  if (req.url === '/healthz') {
+  const url = new URL(req.url || '/', 'http://localhost'); // rende robusto /?x=1
+
+  if (url.pathname === '/healthz') {
     return send(res, 200, JSON.stringify({ ok: true }), 'application/json; charset=utf-8');
   }
 
-  if (req.url !== '/') {
+  if (url.pathname !== '/') {
     return send(res, 404, 'Not Found', 'text/plain; charset=utf-8');
   }
 
