@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dwk-project-step3
+  name: the-project
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dwk-project-step3
+      app: the-project
   template:
     metadata:
       labels:
-        app: dwk-project-step3
+        app: the-project
     spec:
       containers:
-        - name: app
+        - name: the-project
           image: docker.io/helstest99/dwk-project-step3:20260118032414
           imagePullPolicy: IfNotPresent
           ports:
