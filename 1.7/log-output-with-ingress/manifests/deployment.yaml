@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: log-output
-          image: dwk-log-output:1.7
-          imagePullPolicy: IfNotPresent
+          image: docker.io/helstest99/dwk-log-output:log-output-1.7-20260119060509
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:
