@@ -1,3 +1,8 @@
+
+IMPORTANT (image): This solution uses the public Docker Hub image `docker.io/helstest99/dwk-log-output:log-output-1.7-20260119060509`.
+IMPORTANT (k3d mapping): In k3d you need the mapping `-p "8081:80@loadbalancer"` and Traefik is installed by default in k3s (Ingress controller).
+IMPORTANT (no Docker Hub access): If the cluster cannot pull from Docker Hub, import the image into k3d: `k3d image import <image> -c k3s-default` or use a registry the cluster can reach.
+
 IMPORTANT: This exercise uses an Ingress. On k3s, Traefik is installed by default and acts as the Ingress controller. If your cluster has no Ingress controller, the Ingress resource will not route traffic.
 
 IMPORTANT (k3d local): If you build the image locally (without pushing to a registry), you must import it into the k3d cluster, otherwise the Pod may fail with ImagePullBackOff.
