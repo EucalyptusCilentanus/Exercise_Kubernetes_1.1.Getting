@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: the-project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: the-project
+  template:
+    metadata:
+      labels:
+        app: the-project
+    spec:
+      containers:
+        - name: the-project
+          image: docker.io/helstest99/dwk-project-step3:20260118032414
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: APP_MESSAGE
+              value: "Hello from NodePort Service (exercise 1.6)"
+            - name: APP_COLOR
+              value: "#198754"
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
