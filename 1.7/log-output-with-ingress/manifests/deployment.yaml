@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: log-output
+  namespace: ex17
 spec:
   replicas: 1
   selector:
@@ -15,7 +16,7 @@ spec:
       containers:
         - name: log-output
           image: docker.io/helstest99/dwk-log-output:log-output-1.7-20260119060509
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
           env:
