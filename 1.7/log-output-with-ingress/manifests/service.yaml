@@ -1,12 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: log-output-svc
-  namespace: ex17
+  name: log-output-1-7-svc
 spec:
   type: ClusterIP
   selector:
-    app: log-output
+    app: log-output-1-7
   ports:
     - name: http
       protocol: TCP

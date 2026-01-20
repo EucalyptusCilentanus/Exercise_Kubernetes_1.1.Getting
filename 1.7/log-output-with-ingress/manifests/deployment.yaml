@@ -1,17 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: log-output
-  namespace: ex17
+  name: log-output-1-7
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: log-output
+      app: log-output-1-7
   template:
     metadata:
       labels:
-        app: log-output
+        app: log-output-1-7
     spec:
       containers:
         - name: log-output
