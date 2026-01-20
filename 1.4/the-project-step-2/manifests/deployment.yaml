@@ -14,6 +14,10 @@ spec:
     spec:
       containers:
         - name: the-project
-          image: the-project-step-1:1.2
+          image: docker.io/helstest99/dwk-the-project:1.4
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "3000"
           ports:
             - containerPort: 3000
