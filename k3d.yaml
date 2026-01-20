@@ -1,0 +1,13 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: k3s-default
+servers: 1
+agents: 0
+options:
+  k3d:
+    disableLoadbalancer: true
+  runtime:
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
