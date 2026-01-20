@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pingpong-1-9
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pingpong-1-9
+  template:
+    metadata:
+      labels:
+        app: pingpong-1-9
+    spec:
+      containers:
+        - name: pingpong
+          image: docker.io/helstest99/dwk-pingpong:pingpong-1.9-20260120060805
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "3000"
+          ports:
+            - containerPort: 3000
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10

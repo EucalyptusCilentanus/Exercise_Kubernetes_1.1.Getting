@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-output-1-9
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: log-output-1-9
+  template:
+    metadata:
+      labels:
+        app: log-output-1-9
+    spec:
+      containers:
+        - name: log-output
+          image: docker.io/helstest99/dwk-log-output:log-output-1.7-20260119060509
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "3000"
+          ports:
+            - containerPort: 3000
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
