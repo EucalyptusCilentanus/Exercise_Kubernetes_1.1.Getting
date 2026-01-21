@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pingpong-1-11
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pingpong-1-11
+  template:
+    metadata:
+      labels:
+        app: pingpong-1-11
+    spec:
+      volumes:
+        - name: shared-data
+          persistentVolumeClaim:
+            claimName: dwk-1-11-claim
+      containers:
+        - name: pingpong
+          image: helstest99/dwk-pingpong@sha256:dee8851fbe7c78cd27de4cba3f91acfadf0145712b8f5bf302ad1942ba2431fc
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "3000"
+            - name: COUNT_FILE
+              value: /usr/src/app/files/pingpong.txt
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: shared-data
+              mountPath: /usr/src/app/files
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10

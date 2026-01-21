@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-output-1-11
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: log-output-1-11
+  template:
+    metadata:
+      labels:
+        app: log-output-1-11
+    spec:
+      volumes:
+        - name: shared-data
+          persistentVolumeClaim:
+            claimName: dwk-1-11-claim
+      containers:
+        - name: log-output
+          image: helstest99/dwk-log-output@sha256:678679bfce45c6375ff529703d0b854ca643a2d47bc845809bffee8862247e5c
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "3000"
+            - name: COUNT_FILE
+              value: /usr/src/app/files/pingpong.txt
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: shared-data
+              mountPath: /usr/src/app/files
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10

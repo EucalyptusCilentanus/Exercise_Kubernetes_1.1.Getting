@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: log-output-1-11-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: log-output-1-11
+  ports:
+    - name: http
+      protocol: TCP
+      port: 2345
+      targetPort: 3000
