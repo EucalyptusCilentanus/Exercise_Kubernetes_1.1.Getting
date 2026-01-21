@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: log-output-1-10
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: log-output-1-10
+  template:
+    metadata:
+      labels:
+        app: log-output-1-10
+    spec:
+      volumes:
+        - name: shared-logs
+          emptyDir: {}
+      containers:
+        - name: log-writer
+          image: helstest99/dwk-log-writer@sha256:a56f85ce444395a2f42ae1f0813eb149d5a54bdd65f0eaf3df200754c20081b3
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: LOG_FILE
+              value: /usr/src/app/files/log.txt
+            - name: INTERVAL_SECONDS
+              value: "5"
+          volumeMounts:
+            - name: shared-logs
+              mountPath: /usr/src/app/files
+        - name: log-reader
+          image: helstest99/dwk-log-reader@sha256:fc1f7bad2244ed40b45b48ea3a2474847fc198f4a389ae7fe0d7a2c7e27e68d3
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "3000"
+            - name: LOG_FILE
+              value: /usr/src/app/files/log.txt
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: shared-logs
+              mountPath: /usr/src/app/files
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
