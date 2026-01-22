@@ -1,4 +1,4 @@
-# DevOps with Kubernetes — Submissions
+# FOR THE COURSE STAFF "DevOps with Kubernetes" (Submissions)
 All exercises are tagged and released using the exercise number
 
 | Exercise | Tree | Release |
