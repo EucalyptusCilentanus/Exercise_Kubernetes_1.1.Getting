@@ -21,7 +21,8 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
       volumes:
         - name: shared-data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: log-output-shared-data-pvc
       containers:
         - name: image-cache
           image: helstest99/dwk-image-cache:1.12
