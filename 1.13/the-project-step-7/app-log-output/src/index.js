@@ -13,6 +13,8 @@ const imagePath = path.join(DATA_DIR, "image.jpg");
 const metaPath = path.join(DATA_DIR, "meta.json");
 const randomPath = path.join(DATA_DIR, "random.txt");
 
+const HARDCODED_TODOS = ["Learn JavaScript", "Learn React", "Build a project"];
+
 function htmlEscape(s) {
   return String(s)
     .replaceAll("&", "&amp;")
@@ -112,7 +114,7 @@ async function ensureImageReady() {
   const needTouch = await shouldTouchImageCache();
   if (needTouch) await touchImageCache();
 
-  const maxTries = 80; // 8s
+  const maxTries = 80; // ~8s
   const waitMs = 100;
 
   for (let i = 0; i < maxTries; i += 1) {
@@ -124,6 +126,10 @@ async function ensureImageReady() {
 }
 
 function pageHtml({ randomValue, pingText }) {
+  const hardcodedLis = HARDCODED_TODOS
+    .map((t) => `      <li>${htmlEscape(t)}</li>`)
+    .join("\n");
+
   return `
 <!doctype html>
 <html lang="en">
@@ -165,7 +171,10 @@ function pageHtml({ randomValue, pingText }) {
       <span id="msg" style="margin-left: 10px;"></span>
     </div>
 
-    <ul id="todoList"></ul>
+    <!-- Hardcoded todos visibili anche via curl (no JS) -->
+    <ul id="todoList">
+${hardcodedLis}
+    </ul>
 
     <div class="footer">
       <div><strong>Random:</strong> ${htmlEscape(randomValue)}</div>
